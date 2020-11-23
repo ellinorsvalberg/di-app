@@ -4,15 +4,18 @@ import Collapsible from 'react-collapsible'
 
 const Parser = require('rss-parser')
 const parser = new Parser()
-const RSS_URL = 'https://www.di.se/rss'
+const RSS_URL_DI = 'https://www.di.se/rss'
+const RSS_URL_EXPRESSEN = 'http://feeds.expressen.se/nyheter'
+const RSS_URL_DN = 'https://www.dn.se/rss/'
 
 export default function App() {
   const [response, setResponse] = useState(null)
 
   useEffect(() => {
     async function fetchArticles() {
-      const feed = await parser.parseURL(RSS_URL)
-      const articles = feed.items.map(item => ({ ...item, pubDate: new Date(item.pubDate).toLocaleString() }))
+      const [di_feed, expressen_feed, dn_feed] = await Promise.all([parser.parseURL(RSS_URL_DI), parser.parseURL(RSS_URL_EXPRESSEN), parser.parseURL(RSS_URL_DN)])
+      const feed = di_feed.items.concat(expressen_feed.items.concat(dn_feed.items))
+      const articles = feed.map(item => ({ ...item, pubDate: new Date(item.pubDate).toLocaleString() }))
 
       setResponse(articles)
     }
