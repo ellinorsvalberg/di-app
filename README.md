@@ -1,4 +1,4 @@
-# Dagens Industri App
+# News Articles App
 
 This app retrieves the latest content from Dagens Industri's, Expressen's and Dagens Nyheter's RSS-feed and displays a list of the ten most recently published articles, sorted by publish date in a collapsible view.
 
